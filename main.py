@@ -1,3 +1,4 @@
+import sqlite3
 import kivy
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -8,6 +9,8 @@ kivy.require('1.9.0')
 
 Window.clearcolor = (0.5,0.5,0.5)
 Window.size = (360,600)
+con = sqlite3.connect('medset.db')
+cur = con.cursor()
 
 class myClass(BoxLayout):
 
