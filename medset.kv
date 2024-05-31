@@ -1,23 +1,74 @@
-<myClass>:
-    BoxLayout:
+<Login>:
+    MDCard:
+        size_hint: None, None
+        size: 300, 400
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        elevation: 10
+        padding: 25
+        spacing: 25
         orientation: 'vertical'
-        spacing: 10
-        padding: 40
-        #Label is basically text
-        Label:
-            text: "MedSet"
-            font_size: 12
-            #Font color works a little differently, you get the RGB values, divide it by 255 and puts the result as argument
-            #Example: 255/255 = 1, so we put 1; 117/255 = 0,45882352941176470588235294117647, so we put 0.45
-        Label:
-            id: input_label
-            font_size: 64
-        Button:
-            text: "Teste"
-            on_press: root.change_label()
-            size_hint: None, None
-            width: 100
-            height: 50
-            pos_hint: {'center_x':0.5}
-        TextInput:
-            id: input_text
+
+        MDLabel:
+            font_style: "Display"
+            role: "small"
+            text: 'Login'
+            halign: 'center'
+
+        MDButton:
+            style: 'elevated'
+            text: 'Go to register'
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            on_release: root.manager.current = 'register'
+
+            MDButtonText:
+                text: 'Register'
+
+<Register>:
+    MDCard:
+        size_hint: None, None
+        size: 300, 400
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        elevation: 10
+        padding: 25
+        spacing: 25
+        orientation: 'vertical'
+
+        MDLabel:
+            font_style: "Display"
+            role: "small"
+            text: 'Register'
+            halign: 'center'
+
+        MDTextField:
+            mode: "outlined"
+            size_hint_x: None
+            width: 240
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+            MDTextFieldLeadingIcon:
+                icon: 'account'
+
+            MDTextFieldHintText:
+                text: 'Usuário'
+
+        MDTextField:
+            id: birthday
+            mode: "outlined"
+            size_hint_x: None
+            width: 240
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_focus: app.showCalendar(self.focus)
+
+            MDTextFieldLeadingIcon:
+                icon: 'cake'
+
+            MDTextFieldHintText:
+                text: 'Nascimento'
+
+        MDButton:
+            style: 'elevated'
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            on_release: root.manager.current = 'login'
+
+            MDButtonText:
+                text: 'Go to login'
