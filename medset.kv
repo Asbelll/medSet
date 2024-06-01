@@ -40,6 +40,7 @@
             halign: 'center'
 
         MDTextField:
+            id: user
             mode: "outlined"
             size_hint_x: None
             width: 240
@@ -68,7 +69,7 @@
         MDButton:
             style: 'elevated'
             pos_hint: {"center_x": 0.5, "center_y": 0.6}
-            on_release: root.manager.current = 'login'
+            on_release: app.createAccount() #root.manager.current = 'login'
 
             MDButtonText:
                 text: 'Go to login'
