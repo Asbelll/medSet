@@ -1,3 +1,5 @@
+#:import Register main.Register
+
 <Login>:
     MDCard:
         size_hint: None, None
@@ -18,7 +20,7 @@
             style: 'elevated'
             text: 'Go to register'
             pos_hint: {"center_x": 0.5, "center_y": 0.6}
-            on_release: root.manager.current = 'register'
+            on_release: app.root.current = 'register'
 
             MDButtonText:
                 text: 'Register'
@@ -58,7 +60,7 @@
             size_hint_x: None
             width: 240
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            on_focus: app.showCalendar(self.focus)
+            on_focus: Register().showCalendar(self.focus)
 
             MDTextFieldLeadingIcon:
                 icon: 'cake'
@@ -69,7 +71,7 @@
         MDButton:
             style: 'elevated'
             pos_hint: {"center_x": 0.5, "center_y": 0.6}
-            on_release: app.createAccount() #root.manager.current = 'login'
+            on_release: Register().createAccount()
 
             MDButtonText:
                 text: 'Go to login'

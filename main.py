@@ -15,9 +15,42 @@ cur = con.cursor()
 class Login(Screen):
     pass
 
+#Register Screen
 class Register(Screen):
-    pass
+    #Gets root access in an easier way
+    app = MDApp.get_running_app()
+    #Function triggered when pressing ok on the date picker
+    #Closes date picker and puts value in the field
+    def on_ok(self, instance_date_picker):
+        instance_date_picker.dismiss()
+        self.app.root.get_screen('register').ids.birthday.text = str(instance_date_picker.get_date()[0].strftime("%d/%m/%Y"))
+    
+    #Shows calendar, if not focused then closes
+    def showCalendar(self, focus):
+        if not focus:
+            return
+        
+        date_dialog = MDModalDatePicker()
+        date_dialog.bind(on_ok=self.on_ok)
+        date_dialog.open()
 
+    #Creates the account and commits to the database
+    def createAccount(self):
+        bday = self.app.root.get_screen('register').ids.birthday
+        name = self.app.root.get_screen('register').ids.user
+        if not bday.text or not name.text:
+            if not bday.text:
+                bday.error = "True"
+            if not name.text:
+                name.error = "True"
+            return
+
+        cur.execute("INSERT INTO user (name, birth) VALUES (?,?)", (name.text, int(time.mktime(datetime.datetime.strptime(bday.text, "%d/%m/%Y").timetuple()))))
+        con.commit()
+        #add feedback
+        self.app.current = 'login'
+
+#Builds and returns root widget
 class medset(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
@@ -29,31 +62,6 @@ class medset(MDApp):
         sm.add_widget(Register(name = 'register'))
         return sm
     
-    def on_ok(self, instance_date_picker):
-        instance_date_picker.dismiss()
-        self.root.get_screen('register').ids.birthday.text = str(instance_date_picker.get_date()[0].strftime("%d/%m/%Y"))
-
-    def showCalendar(self, focus):
-        if not focus:
-            return
-        
-        date_dialog = MDModalDatePicker()
-        date_dialog.bind(on_ok=self.on_ok)
-        date_dialog.open()
-
-    def createAccount(self):
-        bday = self.root.get_screen('register').ids.birthday
-        name = self.root.get_screen('register').ids.user
-        if not bday.text or not name.text:
-            if not bday.text:
-                bday.error = "True"
-            if not name.text:
-                name.error = "True"
-            return
-
-        cur.execute("INSERT INTO user (name, birth) VALUES (?,?)", (name.text, int(time.mktime(datetime.datetime.strptime(bday.text, "%d/%m/%Y").timetuple()))))
-        con.commit()
-        #add feedback
-        self.root.current = 'login'
     
-medset().run()
+if __name__ == '__main__':    
+    medset().run()
