@@ -3,7 +3,33 @@ from config import *
 app = MDApp.get_running_app()
 
 class Login(Screen):
-    pass
+    selected = None
+    menu = None
+
+    def getUserList(self):
+        cur.execute("SELECT idUser, name FROM user")
+        userList = cur.fetchall()
+
+        return userList
+    
+    def openMenu(self):
+        userList = self.getUserList()
+        menu_items = [
+            {
+                "text": f"{i[1]}",
+                "on_release": lambda x=i : self.menu_callback(x),
+            } for i in userList
+        ]
+        self.menu = MDDropdownMenu(
+            caller=app.root.get_screen('login').ids.button, items=menu_items
+        )
+        self.menu.open()
+
+    def menu_callback(self, text_item):
+        app.root.get_screen('login').ids.button2.text = text_item[1]
+        self.selected = text_item[0]
+        self.menu.dismiss()
+
 
 #Register Screen
 class Register(Screen):
