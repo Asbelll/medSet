@@ -1,17 +1,6 @@
-import sqlite3
-import kivy
-import kivymd
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivymd.app import MDApp
-from kivymd.uix.pickers import MDModalDatePicker
-import time
-import datetime
-from kivymd.uix.snackbar import *
+from config import *
 
-kivy.require('1.9.0')
-con = sqlite3.connect('medset.db')
-cur = con.cursor()
+app = MDApp.get_running_app()
 
 class Login(Screen):
     pass
@@ -19,12 +8,12 @@ class Login(Screen):
 #Register Screen
 class Register(Screen):
     #Gets root access in an easier way
-    app = MDApp.get_running_app()
+
     #Function triggered when pressing ok on the date picker
     #Closes date picker and puts value in the field
     def on_ok(self, instance_date_picker):
         instance_date_picker.dismiss()
-        self.app.root.get_screen('register').ids.birthday.text = str(instance_date_picker.get_date()[0].strftime("%d/%m/%Y"))
+        app.root.get_screen('register').ids.birthday.text = str(instance_date_picker.get_date()[0].strftime("%d/%m/%Y"))
     
     #Shows calendar, if not focused then closes
     def showCalendar(self, focus):
@@ -37,8 +26,8 @@ class Register(Screen):
 
     #Creates the account and commits to the database
     def createAccount(self):
-        bday = self.app.root.get_screen('register').ids.birthday
-        name = self.app.root.get_screen('register').ids.user
+        bday = app.root.get_screen('register').ids.birthday
+        name = app.root.get_screen('register').ids.user
         if not bday.text or not name.text:
             if not bday.text:
                 bday.error = "True"
@@ -49,7 +38,7 @@ class Register(Screen):
         cur.execute("INSERT INTO user (name, birth) VALUES (?,?)", (name.text, int(time.mktime(datetime.datetime.strptime(bday.text, "%d/%m/%Y").timetuple()))))
         con.commit()
         self.showSnackBar("Conta criada com sucesso")
-        self.app.root.current = 'login'
+        app.root.current = 'login'
 
     def showSnackBar(self, message):
         MDSnackbar(
@@ -62,7 +51,7 @@ class Register(Screen):
                 ),
                 pos_hint={"center_y": 0.5}
             ),
-            #y=24,
+            y=24,
             orientation="horizontal",
             pos_hint={"center_x": 0.5},
             size_hint_x=0.5,
