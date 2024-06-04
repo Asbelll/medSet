@@ -7,6 +7,7 @@ from kivymd.app import MDApp
 from kivymd.uix.pickers import MDModalDatePicker
 import time
 import datetime
+from kivymd.uix.snackbar import *
 
 kivy.require('1.9.0')
 con = sqlite3.connect('medset.db')
@@ -47,8 +48,25 @@ class Register(Screen):
 
         cur.execute("INSERT INTO user (name, birth) VALUES (?,?)", (name.text, int(time.mktime(datetime.datetime.strptime(bday.text, "%d/%m/%Y").timetuple()))))
         con.commit()
-        #add feedback
-        self.app.current = 'login'
+        self.showSnackBar("Conta criada com sucesso")
+        self.app.root.current = 'login'
+
+    def showSnackBar(self, message):
+        MDSnackbar(
+            MDSnackbarSupportingText(
+                text=message,
+            ),
+            MDSnackbarButtonContainer(
+                MDSnackbarCloseButton(
+                    icon="close",
+                ),
+                pos_hint={"center_y": 0.5}
+            ),
+            #y=24,
+            orientation="horizontal",
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+        ).open()
 
 #Builds and returns root widget
 class medset(MDApp):
