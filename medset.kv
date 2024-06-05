@@ -2,13 +2,14 @@
 #:import Login main.Login
 
 <Login>:
-    MDCard:
+    MDBoxLayout:
+        md_bg_color: 0.192, 0.207, 0.223 #313539 rgb 49, 53, 57
         size_hint: None, None
-        size: 300, 400
+        size: dp(300), dp(400)
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        elevation: 10
-        padding: 25
-        spacing: 25
+        elevation: dp(10)
+        padding: dp(25)
+        spacing: dp(25)
         orientation: 'vertical'
 
         MDLabel:
@@ -16,34 +17,35 @@
             role: "small"
             text: 'Login'
             halign: 'center'
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: dp(5)
+            padding: dp(25)
+            MDButton:
+                id: button
+                mode: 'outlined'
+                on_release: Login().openMenu()
 
-        MDButton:
-            id: button
-            mode: 'outlined'
-            pos_hint: {"center_x": .5, "center_y": .5}
-            on_release: Login().openMenu()
+                MDButtonText:
+                    id: button2
+                    text: "Usuário"
 
-            MDButtonText:
-                id: button2
-                text: "Usuário"
+            MDButton:
+                style: 'elevated'
+                on_release: app.root.current = 'register'
 
-        MDButton:
-            style: 'elevated'
-            text: 'Go to register'
-            pos_hint: {"center_x": 0.5, "center_y": 0.6}
-            on_release: app.root.current = 'register'
-
-            MDButtonText:
-                text: 'Register'
+                MDButtonText:
+                    text: 'Register'
 
 <Register>:
-    MDCard:
+    MDBoxLayout:
+        md_bg_color: 0.192, 0.207, 0.223 #313539 rgb 49, 53, 57
         size_hint: None, None
-        size: 300, 400
+        size: dp(300), dp(400)
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        elevation: 10
-        padding: 25
-        spacing: 25
+        elevation: dp(10)
+        padding: dp(25)
+        spacing: dp(25)
         orientation: 'vertical'
 
         MDLabel:
@@ -56,7 +58,7 @@
             id: user
             mode: "outlined"
             size_hint_x: None
-            width: 240
+            width: dp(240)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
             MDTextFieldLeadingIcon:
@@ -69,7 +71,7 @@
             id: birthday
             mode: "outlined"
             size_hint_x: None
-            width: 240
+            width: dp(240)
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
             on_focus: Register().showCalendar(self.focus)
 
@@ -79,18 +81,20 @@
             MDTextFieldHintText:
                 text: 'Nascimento'
 
-        MDButton:
-            style: 'elevated'
-            pos_hint: {"center_x": 0.5, "center_y": 0.6}
-            on_release: Register().createAccount()
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: dp(5)
+            padding: dp(25)
+            MDButton:
+                style: 'elevated'
+                on_release: Register().createAccount()
 
-            MDButtonText:
-                text: 'Register'
-        
-        MDButton:
-            style: 'elevated'
-            pos_hint: {"center_x": 0.5, "center_y": 0.6}
-            on_release: app.root.current = 'login'
+                MDButtonText:
+                    text: 'Register'
+            
+            MDButton:
+                style: 'elevated'
+                on_release: app.root.current = 'login'
 
-            MDButtonText:
-                text: 'Cancel'
+                MDButtonText:
+                    text: 'Cancel'

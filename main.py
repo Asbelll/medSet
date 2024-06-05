@@ -21,9 +21,10 @@ class Login(Screen):
             } for i in userList
         ]
         self.menu = MDDropdownMenu(
-            caller=app.root.get_screen('login').ids.button, items=menu_items
+            caller=app.root.get_screen('login').ids.button, items=menu_items, border_margin=dp(24)
         )
         self.menu.open()
+        self.menu.adjust_width()
 
     def menu_callback(self, text_item):
         app.root.get_screen('login').ids.button2.text = text_item[1]
@@ -40,6 +41,9 @@ class Register(Screen):
     def on_ok(self, instance_date_picker):
         instance_date_picker.dismiss()
         app.root.get_screen('register').ids.birthday.text = str(instance_date_picker.get_date()[0].strftime("%d/%m/%Y"))
+
+    def on_cancel(self, instance_date_picker):
+        instance_date_picker.dismiss()
     
     #Shows calendar, if not focused then closes
     def showCalendar(self, focus):
@@ -48,6 +52,7 @@ class Register(Screen):
         
         date_dialog = MDModalDatePicker()
         date_dialog.bind(on_ok=self.on_ok)
+        date_dialog.bind(on_cancel=self.on_cancel)
         date_dialog.open()
 
     #Creates the account and commits to the database
@@ -88,7 +93,7 @@ class medset(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Aliceblue"
-        Builder.load_file('medset.kv')
+        #Builder.load_file('medset.kv')
 
         sm = ScreenManager()
         sm.add_widget(Login(name = 'login'))
