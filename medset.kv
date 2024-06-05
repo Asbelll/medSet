@@ -17,18 +17,28 @@
             role: "small"
             text: 'Login'
             halign: 'center'
+
+        MDButton:
+            id: button
+            mode: 'outlined'
+            pos_hint: {"center_x": 0.5}
+            on_release: Login().openMenu()
+
+            MDButtonText:
+                id: button2
+                text: "Usuário"
+
         BoxLayout:
             orientation: 'horizontal'
             spacing: dp(5)
-            padding: dp(25)
+            padding: dp(35)
             MDButton:
-                id: button
+                id: buttonLogin
                 mode: 'outlined'
-                on_release: Login().openMenu()
+                on_release: Login().confirm()
 
                 MDButtonText:
-                    id: button2
-                    text: "Usuário"
+                    text: "Entrar"
 
             MDButton:
                 style: 'elevated'
@@ -84,7 +94,7 @@
         BoxLayout:
             orientation: 'horizontal'
             spacing: dp(5)
-            padding: dp(25)
+            padding: dp(35)
             MDButton:
                 style: 'elevated'
                 on_release: Register().createAccount()

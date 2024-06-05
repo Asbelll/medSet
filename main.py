@@ -3,9 +3,6 @@ from config import *
 app = MDApp.get_running_app()
 
 class Login(Screen):
-    selected = None
-    menu = None
-
     def getUserList(self):
         cur.execute("SELECT idUser, name FROM user")
         userList = cur.fetchall()
@@ -21,15 +18,22 @@ class Login(Screen):
             } for i in userList
         ]
         self.menu = MDDropdownMenu(
-            caller=app.root.get_screen('login').ids.button, items=menu_items, border_margin=dp(24)
+            caller=app.root.get_screen('login').ids.button, items=menu_items, border_margin=dp(24), position="top"
         )
         self.menu.open()
         self.menu.adjust_width()
 
     def menu_callback(self, text_item):
         app.root.get_screen('login').ids.button2.text = text_item[1]
-        self.selected = text_item[0]
+        app.selected = text_item[0]
         self.menu.dismiss()
+
+    def confirm(self):
+        try:
+            if app.selected:
+                pass
+        except:
+            return
 
 
 #Register Screen
